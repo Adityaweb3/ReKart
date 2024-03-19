@@ -8,14 +8,14 @@ const jwt = require('jsonwebtoken') ;
 
 router.post('/register' , async(req , res)=>{
     try {
-        const user = await user.findOne({email : req.body.email});
+        const user = await User.findOne({email : req.body.email});
         if(user){
            throw new Error("User Already Exists");
         }
 
         //hash password 
 
-        const salt = await bcrypt.getSalt(10) ; 
+        const salt = await bcrypt.genSalt(10) ; 
         const hashedPassword = await bcrypt.hash(req.body.password , salt);
         req.body.password= hashedPassword ;
         const newUser =new User(req.body) ; 
