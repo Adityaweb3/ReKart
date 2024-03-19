@@ -3,6 +3,8 @@ import { Button, Form, Input, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import Divider from "../../components/Divider";
 import { RegisterUser } from "../../apicalls/users";
+import { useDispatch } from "react-redux";
+import { SetLoader } from "../../redux/loadersSlice";
 
 
 const rules = [
@@ -14,9 +16,13 @@ const rules = [
 
 function Register() {
   const navigate = useNavigate() ;
+  const dispatch = useDispatch() ;
   const onFinish = async (values) => {
     try {
+        dispatch(SetLoader(true)) ;
       const response = await RegisterUser(values);
+      navigate("/login") ;
+      dispatch(SetLoader(false)) ;
       if(response.success){
         message.success(response.message);
       }
@@ -24,6 +30,7 @@ function Register() {
         throw new Error(response.message) ;
       }
     } catch (error) {
+        dispatch(SetLoader(false)) ;
       message.error(error.message); 
     }
   };
