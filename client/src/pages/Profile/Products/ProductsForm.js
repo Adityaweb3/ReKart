@@ -1,6 +1,9 @@
-import { Col, Form, Input, Modal, Row, Select, Tabs } from 'antd'
+import { Col, Form, Input, Modal, Row, Select, Tabs, message } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { SetLoader } from '../../../redux/loadersSlice';
+import { AddProduct } from '../../../apicalls/products';
 
 
 const additionalThings=[
@@ -39,8 +42,29 @@ function ProductsForm({
     setShowProductForm,
 }) {
 
-    const onFinish =(values)=>{
-        console.log(values) ;
+    const dispatch = useDispatch() ;
+    const {user} =useSelector(state =>state.users) 
+
+    const onFinish =async(values)=>{
+        try {
+            values.seller =user._id ;
+            values.status = "pending";
+            dispatch(SetLoader(true)) ;
+            const response = await AddProduct(values) ;
+            dispatch(SetLoader(false)) ;
+            if(response.success){
+                message.success(response.message) ;
+                setShowProductForm(false) ;
+            }
+
+            else {
+                message.error(response.message) ;
+            }
+        } catch (error) {
+            dispatch(SetLoader(false)) ;
+            message.error(error.message) ;
+            
+        }
     }
     const formRef = React.useRef(null) ;
   return (
@@ -71,14 +95,14 @@ function ProductsForm({
 
                         <Row gutter={[16 ,16]}>
                             <Col span={8}>
-                            <Form.Item label="Price" name="Price" rules={rules}>
+                            <Form.Item label="price" name="price" rules={rules}>
                             <Input type='number' />
                             
                         </Form.Item>
                             </Col>
 
                             <Col span={8}>
-                            <Form.Item label="Category" name="Category" rules={rules}>
+                            <Form.Item label="category" name="category" rules={rules}>
                             <select>
                             <option value="">
                                     Select
