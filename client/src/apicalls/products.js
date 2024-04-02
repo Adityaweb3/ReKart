@@ -1,3 +1,4 @@
+import axios from "axios";
 import { axiosInstance } from "./axiosInstance";
 
 //add a new product : 
@@ -22,4 +23,4 @@ export const GetProducts = async()=>{
         return error.message ;
         
     }
-}
+};

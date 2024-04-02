@@ -28,7 +28,7 @@ router.post("/add-product" , authMiddleware , async(req,res)=>{
 
 //get all products : 
 
-router.post("/get-products" , async(req,res)=>{
+router.get("/get-products" , async(req,res)=>{
     try {
         const products=await Product.find() ;
         res.send({
@@ -40,10 +40,10 @@ router.post("/get-products" , async(req,res)=>{
         res.send({
             success : false , 
             message : error.message ,
-        })
+        });
         
     }
-})
+});
 
 module.exports=router ;
 
