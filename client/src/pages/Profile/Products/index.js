@@ -6,6 +6,7 @@ import { GetProducts } from '../../../apicalls/products';
 import { SetLoader } from '../../../redux/loadersSlice';
 
 function Products() {
+    const [selectedProduct , setSelectedProduct] = React.useState(null) ;
     const [products ,setProducts]=React.useState([]) ;
     const [showProductForm , setShowProductForm]=React.useState(false) ;
     const dispatch = useDispatch() ;
@@ -58,8 +59,12 @@ function Products() {
             dataIndex : "action" ,
             render : (text,record)=>{
                 return <div className='flex gap-5'>
-                    <i className="ri-pencil-line"></i>
-                    <i className="ri-delete-bin-line"></i>
+                    <i className="ri-delete-bin-line">
+                    </i>
+                    <i className="ri-pencil-line" onClick={()=>{
+                        setSelectedProduct(record) ;
+                        setShowProductForm(true) ;
+                    }}></i>
                 </div>
             }
         } ,
@@ -74,13 +79,15 @@ function Products() {
     <div>
         <div className='flex justify-end mb-2'>
             <Button type ='default'
-            onClick={()=>setShowProductForm(true)}
+            onClick={()=>{
+                setSelectedProduct(null) ;
+                setShowProductForm(true)}}
             >
                 Add Products
             </Button>
         </div>
         <Table columns={columns} dataSource={products} />
-        {showProductForm && <ProductsForm showProductForm={showProductForm} setShowProductForm={setShowProductForm} />}
+        {showProductForm && <ProductsForm showProductForm={showProductForm} setShowProductForm={setShowProductForm} selectedProduct={selectedProduct} getData={getData}/>}
     </div>
   )
 }

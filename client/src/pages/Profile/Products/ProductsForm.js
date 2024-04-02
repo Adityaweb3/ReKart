@@ -1,9 +1,9 @@
 import { Col, Form, Input, Modal, Row, Select, Tabs, message } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { SetLoader } from '../../../redux/loadersSlice';
-import { AddProduct } from '../../../apicalls/products';
+import { AddProduct, EditProduct } from '../../../apicalls/products';
 
 
 const additionalThings=[
@@ -40,6 +40,8 @@ const rules = [
 function ProductsForm({
     showProductForm,
     setShowProductForm,
+    selectedProduct,
+    getData
 }) {
 
     const dispatch = useDispatch() ;
@@ -47,14 +49,22 @@ function ProductsForm({
 
     const onFinish =async(values)=>{
         try {
-            values.seller =user._id ;
-            values.status = "pending";
             dispatch(SetLoader(true)) ;
-            const response = await AddProduct(values) ;
+            let response = null ; 
+            if(selectedProduct){
+                response =await EditProduct(selectedProduct._id , values) ;
+            }
+            else {
+                values.seller =user._id ;
+                values.status = "pending";
+                await AddProduct(values) ;
+            }
             dispatch(SetLoader(false)) ;
             if(response.success){
                 message.success(response.message) ;
+                getData() ;
                 setShowProductForm(false) ;
+
             }
 
             else {
@@ -67,6 +77,12 @@ function ProductsForm({
         }
     }
     const formRef = React.useRef(null) ;
+    useEffect(()=>{
+        if(selectedProduct){
+            formRef.current.setFieldsValue(selectedProduct);
+        }
+
+    } , [selectedProduct])
   return (
     <div>
         <Modal
@@ -80,6 +96,11 @@ function ProductsForm({
             formRef.current.submit() ;
         }}
         >
+            <div>
+                <h1 className='text-primary text-2xl text-center font-semibold uppercase'>
+                    {selectedProduct ? "Edit Product" : "Add Product"}
+
+                </h1>
             <Tabs defaultActiveKey='1'>
                 <Tabs.TabPane tab="General" key="1">
                     <Form 
@@ -134,7 +155,7 @@ function ProductsForm({
 
                         <div className='flex gap-10'>
                             {additionalThings.map((item)=>{
-                                return <Form.Item label={item.label} name={item.name}>
+                                return <Form.Item label={item.label} name={item.name} valuePropName='checked'>
                                     <Input type='checkbox' value={item.name}
                                     onChange={(e)=>{
                                         formRef.current.setFieldsValue({
@@ -154,6 +175,7 @@ function ProductsForm({
                 </Tabs.TabPane>
             </Tabs>
 
+            </div>
         </Modal>
     </div>
   )
