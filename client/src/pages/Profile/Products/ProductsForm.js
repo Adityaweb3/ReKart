@@ -57,7 +57,7 @@ function ProductsForm({
             else {
                 values.seller =user._id ;
                 values.status = "pending";
-                await AddProduct(values) ;
+                response =await AddProduct(values) ;
             }
             dispatch(SetLoader(false)) ;
             if(response.success){

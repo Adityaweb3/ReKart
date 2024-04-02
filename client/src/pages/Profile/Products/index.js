@@ -2,7 +2,8 @@ import { Button, Table, message } from 'antd'
 import React, { useEffect } from 'react'
 import ProductsForm from './ProductsForm';
 import { useDispatch } from 'react-redux';
-import { GetProducts } from '../../../apicalls/products';
+import moment from "moment" ;
+import { DeleteProduct, GetProducts } from '../../../apicalls/products';
 import { SetLoader } from '../../../redux/loadersSlice';
 
 function Products() {
@@ -25,6 +26,25 @@ function Products() {
         }
 
     }
+
+    const deleteProduct=async(id)=>{
+        try {
+            dispatch(SetLoader(true));
+            const response = await DeleteProduct(id) ;
+            dispatch(SetLoader(false)) ;
+            if(response.success){
+                message.success(response.message) ;
+                getData() ;
+            }
+            else {
+                message.error(response.message) ;
+            }
+        } catch (error) {
+            dispatch(SetLoader(false)) ;
+            message.error(error.message);
+            
+        }
+    };
     const columns =[
         {
             title : "Name" , 
@@ -55,11 +75,19 @@ function Products() {
         } ,
 
         {
+            title : "Added On" , 
+            dataIndex : "createdAt" , 
+            render : (text , record)=>moment(record.createdAt).format("DD-MM-YYYY hh:mm A"),
+        },
+
+        {
             title : "Action" , 
             dataIndex : "action" ,
             render : (text,record)=>{
                 return <div className='flex gap-5'>
-                    <i className="ri-delete-bin-line">
+                    <i className="ri-delete-bin-line" onClick={()=>{
+                        deleteProduct(record._id) ;
+                    }}>
                     </i>
                     <i className="ri-pencil-line" onClick={()=>{
                         setSelectedProduct(record) ;
