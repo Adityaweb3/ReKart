@@ -1,6 +1,8 @@
 const router = require("express").Router() ;
 const Product = require("../models/productModel");
 const authMiddleware = require("../middlewares/authMiddleware");
+const multer = require("multer") ;
+const { cloudinary_js_config } = require("../config/cloudinaryConfig");
 
 
 //add new product  : 
@@ -81,6 +83,35 @@ router.delete("/delete-product/:id" , authMiddleware , async(req,res)=>{
             success : false , 
             message : error.message ,
         });
+        
+    }
+});
+
+//handling image upload to cloudinary 
+
+//getting image form pc
+const storage = multer.diskStorage({
+    filename:function(req,file , callback){
+        callback(null , Date.now()+file.originalname);
+    },
+});
+
+router.post('/upload-image-to-product' , authMiddleware,multer({storage:storage}).single('file'), async(req,res)=>{
+    try {
+
+        //upload image to cloudinary
+        const result =await cloudinary.uploader.upload(req.file.path) ;
+
+        const productId=req.body.productId ;
+        await Product.findByIdAndUpdate(productId ,{
+            $push : {images : result.secure_url},
+        });
+        res.send({
+            success:true , 
+            message : "Image Upload SuccessFully" , 
+            result,
+        });
+    } catch (error) {
         
     }
 })
