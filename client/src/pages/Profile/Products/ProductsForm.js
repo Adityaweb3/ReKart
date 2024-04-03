@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { SetLoader } from '../../../redux/loadersSlice';
 import { AddProduct, EditProduct } from '../../../apicalls/products';
+import Images from './Images';
 
 
 const additionalThings=[
@@ -43,7 +44,7 @@ function ProductsForm({
     selectedProduct,
     getData
 }) {
-
+    const [selectedTab="1" , setSelecetedTab]=React.useState("1")
     const dispatch = useDispatch() ;
     const {user} =useSelector(state =>state.users) 
 
@@ -95,13 +96,18 @@ function ProductsForm({
         onOk={()=>{
             formRef.current.submit() ;
         }}
+
+        {...(selectedTab==="2" && {footer : false})}
         >
             <div>
                 <h1 className='text-primary text-2xl text-center font-semibold uppercase'>
                     {selectedProduct ? "Edit Product" : "Add Product"}
 
                 </h1>
-            <Tabs defaultActiveKey='1'>
+            <Tabs defaultActiveKey='1' 
+            activeKey={selectedTab}
+            onChange={(key)=>setSelecetedTab(key)}
+            >
                 <Tabs.TabPane tab="General" key="1">
                     <Form 
                     layout='vertical' ref={formRef} onFinish={onFinish}>
@@ -170,8 +176,8 @@ function ProductsForm({
                         </div>
                     </Form>
                 </Tabs.TabPane>
-                <Tabs.TabPane tab="Images" key="2">
-                    <h1>Images</h1>
+                <Tabs.TabPane tab="Images" key="2" disabled={!selectedProduct}>
+                  <Images selectedProduct={selectedProduct} getData={getData} setShowProductForm={setShowProductForm} />
                 </Tabs.TabPane>
             </Tabs>
 
