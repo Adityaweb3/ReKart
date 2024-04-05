@@ -2,7 +2,7 @@ import { Button, Table, message } from 'antd'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import moment from "moment" ;
-import { GetProducts } from '../../apicalls/products';
+import { GetProducts, UpdateProductStatus } from '../../apicalls/products';
 import { SetLoader } from '../../redux/loadersSlice';
 
 function Products() {
@@ -25,6 +25,22 @@ function Products() {
     }
 
     const onStatusUpdate = async(id , status)=>{
+        try {
+            dispatch(SetLoader(true)) ;
+            const response =await UpdateProductStatus(id , status) ;
+            dispatch(SetLoader(false)) ;
+            if(response.success){
+                message.success(response.message) ;
+                getData() ;
+            }
+            else {
+                throw new Error(response.message) ;
+            }
+            
+        } catch (error) {
+            dispatch(SetLoader(false));
+            message.error(error.message) ;
+        }
 
     }
     const columns =[
@@ -62,6 +78,9 @@ function Products() {
         {
             title : "Status" , 
             dataIndex : "status" ,
+            render : (text,record)=>{
+                return record.status.toUpperCase();
+            }
         } ,
 
         {

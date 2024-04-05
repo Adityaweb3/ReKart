@@ -3,6 +3,7 @@ const Product = require("../models/productModel");
 const authMiddleware = require("../middlewares/authMiddleware");
 const multer = require("multer") ;
 const cloudinary  = require("../config/cloudinaryConfig");
+const productModel = require("../models/productModel");
 
 
 //add new product  : 
@@ -117,6 +118,24 @@ router.post('/upload-image-to-product' , authMiddleware,multer({storage:storage}
             success:true , 
             message : "Image Uploaded SuccessFully" , 
             data : result.secure_url,
+        });
+    } catch (error) {
+        res.send({
+            success : false , 
+            message : error.message ,
+        });
+    }
+});
+
+//Update product status
+
+router.put("/update-product-status/:id" , authMiddleware ,async(req,res)=>{
+    try {
+        const {status} = req.body 
+        await Product.findByIdAndUpdate(req.params.id , {status})
+        res.send({
+            success : true , 
+            message : "Product Status Updated SuccesFully",
         });
     } catch (error) {
         res.send({
