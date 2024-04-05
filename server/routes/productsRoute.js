@@ -2,7 +2,7 @@ const router = require("express").Router() ;
 const Product = require("../models/productModel");
 const authMiddleware = require("../middlewares/authMiddleware");
 const multer = require("multer") ;
-const { cloudinary_js_config } = require("../config/cloudinaryConfig");
+const cloudinary  = require("../config/cloudinaryConfig");
 
 
 //add new product  : 
@@ -100,7 +100,9 @@ router.post('/upload-image-to-product' , authMiddleware,multer({storage:storage}
     try {
 
         //upload image to cloudinary
-        const result =await cloudinary.uploader.upload(req.file.path) ;
+        const result =await cloudinary.uploader.upload(req.file.path , {
+            folder : "rekart",
+        }) ;
 
         const productId=req.body.productId ;
         await Product.findByIdAndUpdate(productId ,{
@@ -108,11 +110,14 @@ router.post('/upload-image-to-product' , authMiddleware,multer({storage:storage}
         });
         res.send({
             success:true , 
-            message : "Image Upload SuccessFully" , 
-            result,
+            message : "Image Uploaded SuccessFully" , 
+            data : result.secure_url,
         });
     } catch (error) {
-        
+        res.send({
+            success : false , 
+            message : error.message ,
+        });
     }
 })
 
