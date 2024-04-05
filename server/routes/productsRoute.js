@@ -30,9 +30,14 @@ router.post("/add-product" , authMiddleware , async(req,res)=>{
 
 //get all products : 
 
-router.get("/get-products" , async(req,res)=>{
+router.post("/get-products" , async(req,res)=>{
     try {
-        const products=await Product.find().sort({createdAt :-1}) ;
+        const {seller , categories=[] , age=[]} = req.body
+        let filters={} 
+        if(seller){
+            filters.seller=seller
+        }
+        const products=await Product.find(filters).sort({createdAt :-1}) ;
         res.send({
             success : true , 
             products ,
@@ -119,7 +124,9 @@ router.post('/upload-image-to-product' , authMiddleware,multer({storage:storage}
             message : error.message ,
         });
     }
-})
+});
+
+
 
 module.exports=router ;
 
