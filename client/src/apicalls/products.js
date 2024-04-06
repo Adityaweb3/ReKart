@@ -38,6 +38,19 @@ export const EditProduct= async(id , payload)=>{
     }
 } ;
 
+//get a product by id 
+
+export const GetProductById = async(id)=>{
+    try {
+        const response = await axiosInstance.get(
+            `/api/products/get-product-by-id/${id}`
+        );
+        return response.data ;
+    } catch (error) {
+        return error.message;
+    }
+
+}
 //delete a product 
 
 export const DeleteProduct = async(id) =>{
