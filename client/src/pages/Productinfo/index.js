@@ -5,6 +5,7 @@ import { message } from 'antd';
 import { SetLoader } from '../../redux/loadersSlice';
 import Divider from '../../components/Divider';
 import { useNavigate, useParams } from 'react-router-dom';
+import moment from "moment" ;
 
 function ProductInfo() {
     const [selectedImageIndex , setSelectedImageIndex]=React.useState(0) ;
@@ -34,7 +35,7 @@ function ProductInfo() {
 
   return (
     product && <div>
-        <div className='grid grid-cols-2'>
+        <div className='grid grid-cols-2 gap-5 mt-5'>
             <div className='flex flex-col gap-5'>
                 <img src={product.images[selectedImageIndex]} alt="" className='w-full h-96 object-cover rounded-md' />
                 <div className='flex gap-5'>
@@ -50,8 +51,104 @@ function ProductInfo() {
                         )
                     })}
                 </div>
+                <Divider />
+                <div>
+                    <h1 className='text-gray-600'>Added On</h1>
+                    <span className='text-gray-600'>
+                        {moment(product.createdAt).format("MMM D, YYYY hh:mm A")}
+                    </span>
+                    
+                </div>
+            </div>
+            <div className='flex flex-col gap-3'>
+                <div>
+                <h1 className='text-2xl font-semibold  text-orange-900'>
+                    {product.name}
+                </h1>
+                <span>
+                    {product.description}
+                </span>
+                </div>
+                <Divider />
+                <div className='flex flex-col'>
+                <h1 className='text-2xl font-semibold  text-orange-900'>
+                    Product Details
+                </h1>
+                <div className='flex justify-between mt-2'>
+                    <span>
+                        Price
+                    </span>
+                    <span>
+                        $ {product.price}
+                    </span>
+                </div>
+                <div className='flex justify-between mt-2'>
+                    <span>
+                        Category
+                    </span>
+                    <span className='uppercase'>
+                        {product.category}
+                    </span>
+                </div>
+                <div className='flex justify-between mt-2'>
+                    <span>
+                        Bill Available
+                    </span>
+                    <span>
+                        {product.billAvailable ?"YES" : "NO"}
+                    </span>
+                </div>
+                <div className='flex justify-between mt-2'>
+                    <span>
+                        Box Available
+                    </span>
+                    <span>
+                        {product.boxAvailable ?"YES" : "NO"}
+                    </span>
+                </div>
+                <div className='flex justify-between mt-2'>
+                    <span>
+                        Accessories Available
+                    </span>
+                    <span>
+                        {product.accessoriesAvailable ?"YES" : "NO"}
+                    </span>
+                </div>
+                <div className='flex justify-between mt-2'>
+                    <span>
+                        Waranty Available
+                    </span>
+                    <span>
+                        {product.warantyAvailable ?"YES" : "NO"}
+                    </span>
+                </div>
+                </div>
+                <Divider />
+                <div className='flex flex-col'>
+                <h1 className='text-2xl font-semibold  text-orange-900'>
+                    Seller Details
+                </h1>
+                <div className='flex justify-between mt-2'>
+                    <span>
+                        Name
+                    </span>
+                    <span>
+                        {product.seller.name}
+                    </span>
+                </div>
+                <div className='flex justify-between mt-2'>
+                    <span>
+                        Email
+                    </span>
+                    <span>
+                        {product.seller.email}
+                    </span>
+                </div>
+                
+                </div>
             </div>
         </div>
+
     </div>
   )
 }
