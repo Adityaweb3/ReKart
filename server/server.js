@@ -6,6 +6,8 @@ require('dotenv').config() ;
 const port = process.env.PORT || 5000 ;
 const productsRoute = require("./routes/productsRoute");
 const usersRoute =require('./routes/usersRoute');
+const bidsRoute = require('./routes/bidsRoute') ;
 app.use('/api/users' , usersRoute) ;
 app.use('/api/products' , productsRoute) ;
+app.use('/api/bids' , bidsRoute) ;
 app.listen(port , ()=> console.log(`Node.js Server started on port ${port}`));
