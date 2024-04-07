@@ -24,9 +24,9 @@ router.post('/place-new-bid' , authMiddleware , async(req,res)=>{
 
 //get all bids 
 
-router.get('/get-all-bids' , authMiddleware , async(req,res)=>{
+router.post('/get-all-bids' , authMiddleware , async(req,res)=>{
     try {
-        const {product , seller} =req.body 
+        const {product , seller} =req.body ;
         let filters = {}
         if(product){
             filters.product= product 
@@ -35,7 +35,7 @@ router.get('/get-all-bids' , authMiddleware , async(req,res)=>{
             filters.seller = seller
         }
 
-        const bids =await Bid.find(filters).populate("products").populate("buyers").populate("seller") ;
+        const bids =await Bid.find(filters).populate("product").populate("buyer").populate("seller") ;
         res.send({
             success : true , 
             data : bids , 

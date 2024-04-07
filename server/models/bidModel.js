@@ -2,7 +2,7 @@ const mongoose = require('mongoose') ;
 const bidSchema =new mongoose.Schema({
     product : {
         type : mongoose.Schema.Types.ObjectId , 
-        ref :'Products' ,
+        ref :'products' ,
 
     } , 
 
@@ -32,4 +32,4 @@ const bidSchema =new mongoose.Schema({
 },{timestamps:true});
 
 
-module.exports= mongoose.model('bids' , bidSchema) ;
+module.exports= mongoose.model("bids" , bidSchema) ;
