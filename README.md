@@ -37,7 +37,8 @@ Buyers can see the available products in the portal, filter the products, place 
 ![product_form](https://github.com/Adityaweb3/ReKart/assets/100551659/51abef2a-c21f-43a5-9039-f23aed2a2373)
 
 # Admin Profile View : 
-![admin_profile](https://github.com/Adityaweb3/ReKart/assets/100551659/55d58a84-bd39-4b1c-9678-3376a52c44e9)
+![admin](https://github.com/Adityaweb3/ReKart/assets/100551659/c2963b8b-23f8-41e4-a224-93a484b9cf40)
+
 
 
 
