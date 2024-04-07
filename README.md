@@ -23,11 +23,23 @@ Buyers can see the available products in the portal, filter the products, place 
 
 ![login_rekart](https://github.com/Adityaweb3/ReKart/assets/100551659/da0c2c68-4832-444e-8d77-8923531950e1)
 
+# Home Page : 
+![home_page](https://github.com/Adityaweb3/ReKart/assets/100551659/1cffbc09-df31-4bef-b954-83dcaf350a9b)
+
 # Add Product Page : 
 ![add_product](https://github.com/Adityaweb3/ReKart/assets/100551659/27422072-e5aa-47f9-a737-eadf25743162)
 
-# Product Table 
-![2024-04-02](https://github.com/Adityaweb3/ReKart/assets/100551659/e6bf19c9-a671-436f-9ce6-10f369497531)
+# Show Bids Page : 
+![show_bids](https://github.com/Adityaweb3/ReKart/assets/100551659/c7ed1c09-eeb4-4473-88ba-6f5e63eaa1c1)
+
+
+# Product Table :
+![product_form](https://github.com/Adityaweb3/ReKart/assets/100551659/51abef2a-c21f-43a5-9039-f23aed2a2373)
+
+# Admin Profile View : 
+![admin](https://github.com/Adityaweb3/ReKart/assets/100551659/c2963b8b-23f8-41e4-a224-93a484b9cf40)
+
+
 
 
 
