@@ -39,6 +39,14 @@ Buyers can see the available products in the portal, filter the products, place 
 # Admin Profile View : 
 ![admin](https://github.com/Adityaweb3/ReKart/assets/100551659/c2963b8b-23f8-41e4-a224-93a484b9cf40)
 
+# Place new bid page : 
+![place](https://github.com/Adityaweb3/ReKart/assets/100551659/bc3243e8-0de5-4ec7-80d8-82720a1a8c9a)
+
+# Product Information Page : 
+![product_info](https://github.com/Adityaweb3/ReKart/assets/100551659/114540e3-b970-4ca3-b47a-fa47867c49fa)
+
+
+
 
 
 
