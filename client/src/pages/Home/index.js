@@ -5,8 +5,10 @@ import { message } from 'antd';
 import { SetLoader } from '../../redux/loadersSlice';
 import Divider from '../../components/Divider';
 import { useNavigate } from 'react-router-dom';
+import Filters from './Filters';
 
 function Home() {
+  const [showFilters , setShowFilters]=React.useState(true) ;
   const [products , setProducts]= React.useState([]) ;
   const [filters , setFilters] = React.useState({
     status : 'approved' ,
@@ -34,16 +36,25 @@ function Home() {
   },[])
   const {user} =useSelector((state)=>state.users) ;
   return (
-    <div>
-      <div className='grid grid-cols-5 gap-2'>
+    <div className='flex gap-5'>
+      {showFilters && <Filters showFilters={showFilters} setShowFilters={setShowFilters} filters={filters} setFilters={setFilters}/>}
+      <div className='flex flex-col gap-5'>
+        <div className='flex gap-5 items-center'>
+        {!showFilters && <i className="ri-equalizer-line text-xl cursor-pointer"
+        onClick={()=>setShowFilters(!showFilters)}
+        ></i>}
+        <input type='text' placeholder='Search Product Here' className='border border-gray-300 rounded border-solid w-full p-2 h-14' />
+        </div>
+      <div className={`
+      grid  gap-5 ${showFilters ? "grid-cols-4" : "grid-cols-5"}`}>
       {products?.map((product) =>{
-        return (<div className='border border-gray-300 rounded border-solid flex flex-col gap-5 pb-2 cursor-pointer'
+        return (<div className='border border-gray-350 rounded border-solid flex flex-col gap-2 pb-2 cursor-pointer'
         key = {product._id}
         onClick={()=>navigate(`/product/${product._id}`)}
         >
           <img src = {product.images[0]}
-          className='w-full h-40 object-cover' alt="" />
-          <div className='px-2 flex flex-col gap-1'>
+          className='w-full h-52 p-2 rounded-md' alt="" />
+          <div className='px-2 flex flex-col'>
             <h1 className='text-lg font-semibold '>{product.name}</h1>
             <p className='text-sm'>{product.description}</p>
             <Divider />
@@ -53,6 +64,8 @@ function Home() {
         )
       })}
       </div>
+      </div>
+
     </div>
   )
 }
